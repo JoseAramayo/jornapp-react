@@ -2,20 +2,27 @@ import { useState } from 'react';
 import HourRange from '../components/HourRange';
 import TotalHours from '../components/TotalHours';
 function FormContainer(props) {
-    const { month, setMonth } = props;
+    const { horaEntrada, setHoraEntrada, horaSalida, setHoraSalida, month, setMonth } = props;
     const [metodo, setMetodo] = useState("0");
     let seleccion = {
         componente: null,
-        metodo:null
+        metodo: null
     };
     switch (metodo) {
-        
+
         case "0":
-                seleccion.componente =  <p className='p-texto-informativo'>Selecciona un método de carga.</p>
+            seleccion.componente = <p className='p-texto-informativo'>Selecciona un método de carga.</p>
             break;
         case "1":
             seleccion = {
-                componente: <HourRange month={month} setMonth={setMonth} />,
+                componente: <HourRange
+                    horaEntrada={horaEntrada}
+                    setHoraEntrada={setHoraEntrada}
+                    horaSalida={horaSalida}
+                    setHoraSalida={setHoraSalida}
+                    month={month}
+                    setMonth={setMonth}
+                />,
                 metodo: "1"
             }
             break;

@@ -2,14 +2,14 @@ import { format, getDaysInMonth, getYear } from 'date-fns';
 import { es } from 'date-fns/locale';
 import Headers from '../components/Headers';
 import * as utils from '../utils/utils';
+import { useState } from 'react';
 
 function HourRange(props) {
+
 	const { month: monthProp } = props;
 	const daysInMonth = getDaysInMonth(new Date());
 	const year = getYear(new Date());
-	// const month = getMonth(new Date()) + 1;
 	const month = monthProp + 1;
-	// const MMyy = format(new Date(), 'MM/yyyy')
 	const rows = []
 
 	for (let day = 1; day <= daysInMonth; day++) {
@@ -40,7 +40,9 @@ function HourRange(props) {
 					<div className="container">
 						<div className="columnHE">
 							<input className="hora-entrada" type="time" name={`horaEntId${day}`} onChange={(e) => {
-								utils.getHoraEntrada(day, e.target.value)
+								setHoraEntrada(prev => {
+									return { ...prev, [day]: e.target.value }
+								})
 							}} />
 							{/* <input placeholder="--" type="number" className="inputHE" id={`HE${day}`} title="Hora de 00 a 23" onChange={utils.validarHora} />
 							<span>:</span>
@@ -48,7 +50,11 @@ function HourRange(props) {
 						</div>
 					</div>
 					<div className="container">
-						<input className="hora-salida" type="time" name={`horaSalId${day}`} />
+						<input className="hora-salida" type="time" name={`horaSalId${day}`} onChange={(e) => {
+							setHoraSalida(prev => {
+								return { ...prev, [day]: e.target.value }
+							})
+						}} />
 
 						{/* <div className="columnHS">
 							<input placeholder="--" type="number" className="inputHS" id={`HS${day}`} title="Hora de 00 a 23" onChange={utils.validarHora} />

@@ -25,7 +25,7 @@ function ContainerTable() {
                     </div>
                 </div> */}
                 {/* <hr /> */}
-                <table className="tanbleReference">
+                <table className="tableReference">
                     <thead>
                         <tr>
                             <th>Concepto</th>
@@ -62,7 +62,7 @@ function ContainerTable() {
                     </tbody>
                 </table>
                 <hr />
-                <table className='tanbleReference'>
+                <table className='tableReference'>
                     <thead>
                         <tr>
                             <th>Días Libres</th>

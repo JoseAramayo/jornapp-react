@@ -8,13 +8,15 @@ import SelectMonth from '../src/components/SelectMonth'
 
 function App() {
     const [month, setMonth] = useState(getMonth(new Date()))
+    const [horaEntrada, setHoraEntrada] = useState({})
+    const [horaSalida, setHoraSalida] = useState({})
     return (
         <>
             <Nav />
             <SelectMonth month={month} setMonth={setMonth} />
             <div className="formTableContainer">
-                <FormContainer month={month} setMonth={setMonth} />
-                <ContainerTable />
+                <FormContainer month={month} setMonth={setMonth} horaEntrada={horaEntrada} horaSalida={horaSalida} setHoraEntrada={setHoraEntrada} setHoraSalida={setHoraSalida} />
+                <ContainerTable horaEntrada={horaEntrada} horaSalida={horaSalida} setHoraEntrada={setHoraEntrada} setHoraSalida={setHoraSalida} />
             </div>
             <Footer />
         </>
