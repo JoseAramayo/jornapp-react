@@ -5,8 +5,7 @@ import * as utils from '../utils/utils';
 import { useState } from 'react';
 
 function HourRange(props) {
-
-	const { month: monthProp } = props;
+	const { month: monthProp, setHoraEntrada, setHoraSalida } = props;
 	const daysInMonth = getDaysInMonth(new Date());
 	const year = getYear(new Date());
 	const month = monthProp + 1;
@@ -44,9 +43,6 @@ function HourRange(props) {
 									return { ...prev, [day]: e.target.value }
 								})
 							}} />
-							{/* <input placeholder="--" type="number" className="inputHE" id={`HE${day}`} title="Hora de 00 a 23" onChange={utils.validarHora} />
-							<span>:</span>
-							<input placeholder="--" type="number" className="inputME" id={`ME${day}`} title="Minutos de 00 a 59" onChange={utils.validarMinutos} /> */}
 						</div>
 					</div>
 					<div className="container">
@@ -55,12 +51,6 @@ function HourRange(props) {
 								return { ...prev, [day]: e.target.value }
 							})
 						}} />
-
-						{/* <div className="columnHS">
-							<input placeholder="--" type="number" className="inputHS" id={`HS${day}`} title="Hora de 00 a 23" onChange={utils.validarHora} />
-							<span>:</span>
-							<input placeholder="--" type="number" className="inputMS" id={`MS${day}`} title="Minutos de 00 a 59" onChange={utils.validarMinutos} />
-						</div> */}
 					</div>
 				</div>
 			</div>,

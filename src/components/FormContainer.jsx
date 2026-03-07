@@ -2,8 +2,7 @@ import { useState } from 'react';
 import HourRange from '../components/HourRange';
 import TotalHours from '../components/TotalHours';
 function FormContainer(props) {
-    const { horaEntrada, setHoraEntrada, horaSalida, setHoraSalida, month, setMonth } = props;
-    const [metodo, setMetodo] = useState("0");
+    const { horaEntrada, setHoraEntrada, horaSalida, setHoraSalida, month, setMonth, metodo, setMetodo } = props;
     let seleccion = {
         componente: null,
         metodo: null
@@ -13,7 +12,7 @@ function FormContainer(props) {
         case "0":
             seleccion.componente = <p className='p-texto-informativo'>Selecciona un método de carga.</p>
             break;
-        case "1":
+        case "rangoHoras":
             seleccion = {
                 componente: <HourRange
                     horaEntrada={horaEntrada}
@@ -23,13 +22,18 @@ function FormContainer(props) {
                     month={month}
                     setMonth={setMonth}
                 />,
-                metodo: "1"
+                metodo: metodo
             }
             break;
-        case "2":
+        case "cantidadHoras":
             seleccion = {
-                componente: <TotalHours month={month} setMonth={setMonth} />,
-                metodo: "2"
+                componente: <TotalHours horaEntrada={horaEntrada}
+                    setHoraEntrada={setHoraEntrada}
+                    horaSalida={horaSalida}
+                    setHoraSalida={setHoraSalida}
+                    month={month}
+                    setMonth={setMonth} />,
+                metodo: metodo
             }
             break;
 
@@ -45,8 +49,8 @@ function FormContainer(props) {
 
                     }}>
                         <option value="0" disabled>Seleccionar método</option>
-                        <option value="1">Hora de entrada y salida</option>
-                        <option value="2">Horas trabajadas</option>
+                        <option value="rangoHoras">Hora de entrada y salida</option>
+                        <option value="cantidadHoras">Horas trabajadas</option>
                     </select>
                 </div>
                 <form>

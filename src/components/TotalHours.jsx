@@ -1,16 +1,12 @@
-import { format, getDaysInMonth, getMonth, getYear } from 'date-fns';
+import { format, getDaysInMonth, getYear } from 'date-fns';
 import { es } from 'date-fns/locale';
-import * as utils from '../utils/utils';
 import Headers from '../components/Headers';
 
-
 function TotalHours(props) {
-    const { month: monthProp } = props;
+    const { month: monthProp, setHoraEntrada, setHoraSalida } = props;
     const daysInMonth = getDaysInMonth(new Date());
     const year = getYear(new Date());
-    // const month = getMonth(new Date()) + 1;
     const month = monthProp + 1;
-    // const MMyy = format(new Date(), 'MM/yyyy')
     const rows = []
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -41,12 +37,20 @@ function TotalHours(props) {
                     </div>
                     <div className="container">
                         <div className="columnHE">
-                            <input placeholder="--" type="number" className="inputHE" id={`HD${day}`} />
+                            <input placeholder="--" type="number" className="inputHE" id={`HD${day}`} onChange={(e) => {
+                                setHoraEntrada(prev => {
+                                    return { ...prev, [day]: e.target.value }
+                                })
+                            }} />
                         </div>
                     </div>
                     <div className="container">
                         <div className="columnHS">
-                            <input placeholder="--" type="number" className="inputHS" id={`HN${day}`} />
+                            <input placeholder="--" type="number" className="inputHS" id={`HN${day}`} onChange={(e) => {
+                                setHoraSalida(prev => {
+                                    return { ...prev, [day]: e.target.value }
+                                })
+                            }} />
                         </div>
                     </div>
                 </div>

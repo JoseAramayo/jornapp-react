@@ -10,13 +10,14 @@ function App() {
     const [month, setMonth] = useState(getMonth(new Date()))
     const [horaEntrada, setHoraEntrada] = useState({})
     const [horaSalida, setHoraSalida] = useState({})
+    const [metodo, setMetodo] = useState("0")
     return (
         <>
             <Nav />
             <SelectMonth month={month} setMonth={setMonth} />
             <div className="formTableContainer">
-                <FormContainer month={month} setMonth={setMonth} horaEntrada={horaEntrada} horaSalida={horaSalida} setHoraEntrada={setHoraEntrada} setHoraSalida={setHoraSalida} />
-                <ContainerTable horaEntrada={horaEntrada} horaSalida={horaSalida} setHoraEntrada={setHoraEntrada} setHoraSalida={setHoraSalida} />
+                <FormContainer month={month} setMonth={setMonth} horaEntrada={horaEntrada} setHoraEntrada={setHoraEntrada} horaSalida={horaSalida} setHoraSalida={setHoraSalida} metodo={metodo} setMetodo={setMetodo} />
+                <ContainerTable horaEntrada={horaEntrada} horaSalida={horaSalida} metodo={metodo} />
             </div>
             <Footer />
         </>

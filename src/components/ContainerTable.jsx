@@ -2,7 +2,9 @@
 import * as utils from '../utils/utils';
 import * as constants from '../utils/constants';
 import Button from './Button';
-function ContainerTable() {
+function ContainerTable(props) {
+    const { horaEntrada, horaSalida, metodo, setMetodo } = props;
+
     return (
         <>
             <div className="containerTable">
@@ -24,7 +26,7 @@ function ContainerTable() {
                         </ul>
                     </div>
                 </div> */}
-                {/* <hr /> */}
+                <hr />
                 <table className="tableReference">
                     <thead>
                         <tr>
@@ -81,89 +83,9 @@ function ContainerTable() {
                     </tbody>
                 </table>
                 <hr />
-                {/* <div className="referenceTable">
-                    <div className="column">
-                        <h4>Jornal Diurno</h4>
-                        <div className="bgColorCustom"> <span id="spanJornalDiurno">Gs. {constants.JORNAL.diurno}</span></div>
-
-                        <hr className="separador" />
-
-                        <h4>Jornal Nocturno</h4>
-                        <div className="bgColorCustom"> <span id="spanJornalNocturno">Gs. {constants.JORNAL.nocturno}</span></div>
-
-                        <hr className="separador" />
-
-                        <h4 title="Diurnas Feriado/Domingo">Diur. Fer/Dom</h4>
-                        <div className="bgColorCustom"> <span id="spanDiaFerDom">Gs. {constants.JORNAL.diurnoFerDom}</span> </div>
-
-                        <hr className="separador" />
-
-                        <h4 title="Nocturnas Feriado/Domingo">Noct. Fer/Dom</h4>
-                        <div className="bgColorCustom"> <span id="spanNocheFerDom">Gs. {constants.JORNAL.nocturnoFerDom}</span> </div>
-                    </div>
-                    <hr />
-                    <div className="column">
-                        <h4>Horas</h4>
-                        <div className="bgColorCustom"> <span id="spanTotalDiurnas">--</span></div>
-
-                        <hr className="separador" />
-
-                        <h4>''</h4>
-                        <div className="bgColorCustom"> <span id="spanTotalNocturnas">--</span></div>
-
-                        <hr className="separador" />
-
-                        <h4>''</h4>
-                        <div className="bgColorCustom"> <span id="spanTotalDFerDom">--</span> </div>
-
-                        <hr className="separador" />
-
-                        <h4>''</h4>
-                        <div className="bgColorCustom"> <span id="spanTotalNFerDom">--</span> </div>
-                    </div>
-                    <hr />
-                    <div className="column">
-                        <h4>Generado</h4>
-                        <div className="bgColorCustom"> <span id="spanCobroDiurnas">--</span> </div>
-
-                        <hr className="separador" />
-
-                        <h4>''</h4>
-                        <div className="bgColorCustom"> <span id="spanCobroNocturnas">--</span> </div>
-
-                        <hr className="separador" />
-
-                        <h4>''</h4>
-                        <div className="bgColorCustom"> <span id="spanCobroDiaFerDom">--</span> </div>
-
-                        <hr className="separador" />
-
-                        <h4>''</h4>
-                        <div className="bgColorCustom"> <span id="spanCobroNocheFerDom">--</span> </div>
-                    </div>
-                    <hr />
-                    <div className="column">
-                        <h4>% IPS</h4>
-                        <div className="bgColorCustom"> <span id="spanDescIPS">--</span> </div>
-
-                        <hr className="separador" />
-
-                        <h4>Días libres</h4>
-                        <div className="bgColorCustom"> <span id="spandiasLibres">--</span> </div>
-
-                        <hr className="separador" />
-                        <h4>Total bruto</h4>
-                        <div className="bgColorCustom"> <span id="spanTotalBruto">--</span> </div>
-
-                        <hr className="separador" />
-
-                        <h4>Total neto</h4>
-                        <div className="bgColorCustom"> <span id="spanTotalNeto">--</span> </div>
-                    </div>
-                </div> */}
                 <div className="containerDivs">
                     <div className="containerButtons">
-                        <Button className="btnCalcular" onClick={utils.calcular}>
+                        <Button className="btnCalcular" onClick={() => { utils.calcular(metodo, horaEntrada, horaSalida) }}>
                             <img src="/icons/calculator.svg" alt="Calcular" /></Button>
                         <Button className="btnRefresh" onClick={utils.reiniciar}>
                             <img src="/icons/refresh-ccw.svg" alt="Calcular" /></Button>

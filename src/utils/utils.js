@@ -1,12 +1,22 @@
-export function calcular(metodo) {
-    if (metodo === "1") {
-        // calcularPorEntradaSalida();
-    } else if (metodo === "2") {
-        // calcularPorHorasTrabajadas();
-    } else {
-        alert("Primero selecciona un método de carga.");
+
+export function calcular(metodo, entrada, salida) {
+    debugger
+
+    switch (metodo) {
+        case "rangoHoras":
+            hourRange(entrada, salida);
+            break;
+        case "cantidadHoras":
+            totalHour(entrada, salida);
+            break;
+        default:
+            alert("Selecciona un método de carga.")
     }
 }
+function hourRange(entrada, salida) {
+}
+function totalHour(entrada, salida) { }
+
 export function reiniciar() {
     window.location.reload();
 }
@@ -20,7 +30,7 @@ export function Export() {
     alert("exoprtastr...");
 }
 
-export function getHoraEntrada(day,datos) {
+export function getHoraEntrada(day, datos) {
     console.log(day, datos)
 }
 export function getHorasalida(datos) {
