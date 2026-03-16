@@ -8,9 +8,6 @@ import SelectMonth from "../src/components/SelectMonth";
 
 function App() {
   const [month, setMonth] = useState(getMonth(new Date()));
-  const [checked, setChecked] = useState({});
-  const [horaEntrada, setHoraEntrada] = useState({});
-  const [horaSalida, setHoraSalida] = useState({});
   const [metodo, setMetodo] = useState("0");
   return (
     <>
@@ -20,21 +17,10 @@ function App() {
         <FormContainer
           month={month}
           setMonth={setMonth}
-          horaEntrada={horaEntrada}
-          setHoraEntrada={setHoraEntrada}
-          horaSalida={horaSalida}
-          setHoraSalida={setHoraSalida}
           metodo={metodo}
           setMetodo={setMetodo}
-          checked={checked}
-          setChecked={setChecked}
         />
-        <ContainerTable
-          horaEntrada={horaEntrada}
-          horaSalida={horaSalida}
-          metodo={metodo}
-          checked={checked}
-        />
+        <ContainerTable metodo={metodo} />
       </div>
       <Footer />
     </>

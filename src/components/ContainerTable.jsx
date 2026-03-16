@@ -1,5 +1,11 @@
 import * as constants from "../utils/constants";
-import * as utils from "../utils/utils";
+import {
+  handleSubmit,
+  reiniciar,
+  imprimir,
+  guardar,
+  excel,
+} from "../utils/utils";
 import Button from "./Button";
 function ContainerTable(props) {
   const { horaEntrada, horaSalida, metodo, checked } = props;
@@ -128,24 +134,19 @@ function ContainerTable(props) {
         <hr />
         <div className="containerDivs">
           <div className="containerButtons">
-            <Button
-              className="btnCalcular"
-              onClick={() => {
-                utils.calcular(metodo, horaEntrada, horaSalida, checked);
-              }}
-            >
+            <Button className="btnCalcular" form="formHoras" type="submit">
               <img src="/icons/calculator.svg" alt="Calcular" />
             </Button>
-            <Button className="btnRefresh" onClick={utils.reiniciar}>
+            <Button className="btnRefresh" onClick={reiniciar}>
               <img src="/icons/refresh-ccw.svg" alt="Calcular" />
             </Button>
-            <Button className="btnPrint" onClick={utils.imprimir}>
+            <Button className="btnPrint" onClick={imprimir}>
               <img src="/icons/file-text.svg" alt="Pdf" />
             </Button>
-            <Button className="btnSave" onClick={utils.guardar}>
+            <Button className="btnSave" onClick={guardar}>
               <img src="/icons/save.svg" alt="Guardar" />
             </Button>
-            <Button className="btnExport" onClick={utils.Export}>
+            <Button className="btnExport" onClick={excel}>
               <img src="/icons/sheet.svg" alt="Excel" />
             </Button>
           </div>

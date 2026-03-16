@@ -4,29 +4,11 @@ import { useEffect } from "react";
 import Headers from "../components/Headers";
 
 function HourRange(props) {
-  const {
-    month: monthProp,
-    setHoraEntrada,
-    setHoraSalida,
-    setChecked,
-    checked,
-  } = props;
+  const { month: monthProp } = props;
   const daysInMonth = getDaysInMonth(new Date());
   const year = getYear(new Date());
   const month = monthProp + 1;
   const rows = [];
-
-  useEffect(() => {
-    const domiFeri = {};
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dateAux = new Date(year, month - 1, day);
-      const dayName = format(dateAux, " EEEE", { locale: es });
-      if (dayName.toLowerCase().includes("domingo")) {
-        domiFeri[day] = true;
-      }
-    }
-    setChecked((prev) => ({ ...domiFeri, ...prev }));
-  }, [monthProp]);
 
   for (let day = 1; day <= daysInMonth; day++) {
     let date = day + "/" + month + "/" + year;
@@ -42,19 +24,15 @@ function HourRange(props) {
                 type="checkbox"
                 className="arrayCheckBoxFerDom"
                 id={`checkId${day}`}
+                name="checkBoxDays"
                 disabled={esDomingo}
-                checked={checked?.[day] ?? esDomingo}
-                onChange={(e) => {
-                  setChecked((prev) => {
-                    return { ...prev, [day]: e.target.checked };
-                  });
-                }}
+                defaultChecked={esDomingo}
               />
             </div>
           </div>
           <div className="container">
             <div className="columnDate">
-              <span className="dateWeek" id={`dayId${day}`}>
+              <span className="dateWeek" id={`dayId${day}`} name="dayName">
                 {dayName}
               </span>
             </div>
@@ -66,29 +44,11 @@ function HourRange(props) {
           </div>
           <div className="container">
             <div className="columnHE">
-              <input
-                className="hora-entrada"
-                type="time"
-                name={`horaEntId${day}`}
-                onChange={(e) => {
-                  setHoraEntrada((prev) => {
-                    return { ...prev, [day]: e.target.value };
-                  });
-                }}
-              />
+              <input className="hora-entrada" type="time" name="entrada" />
             </div>
           </div>
           <div className="container">
-            <input
-              className="hora-salida"
-              type="time"
-              name={`horaSalId${day}`}
-              onChange={(e) => {
-                setHoraSalida((prev) => {
-                  return { ...prev, [day]: e.target.value };
-                });
-              }}
-            />
+            <input className="hora-salida" type="time" name="salida" />
           </div>
         </div>
       </div>,

@@ -12,39 +12,54 @@ export function calcular(metodo, entrada, salida, checked) {
             alert("Selecciona un método de carga.")
     }
 }
-function hourRange(entrada, salida, checked) {
-    let horaEn = []
-    let minutEn = []
-    let horaSal = []
-    let minutSal = []
-    let entradaFormateada = []
-    let salidaFormateada = []
-    let totalHoras = []
+export function handleSubmit(e) {
+    e.preventDefault();
+    console.log("handleSubmit...")
+    const form = new FormData(e.currentTarget)
 
-    const checkBoxArray = Object.entries(checked);
-    const keyCheckBox = Object.keys(checked);
-
-    const entradaArray = Object.entries(entrada);
-    const keysEntradas = Object.keys(entrada);
-
-    const salidaArray = Object.entries(salida);
-    const keysSalidas = Object.keys(salida);
-
-    if (validarCampos(entrada, salida)) {
-        entradaArray.forEach((subArray, index) => {
-            [horaEn[index], minutEn[index]] = subArray[1].split(":")
-            entradaFormateada[index] = Number(horaEn[index]) + Number(minutEn[index] / 60)
-        })
-        salidaArray.forEach((subArray, index) => {
-            [horaSal[index], minutSal[index]] = subArray[1].split(":")
-            salidaFormateada[index] = Number(horaSal[index]) + Number(minutSal[index] / 60)
-        })
-
-        
-    }
+    const checkBoxes = form.getAll("checkBoxDays")
+    const entradas = form.getAll("entrada")
+    const salidas = form.getAll("salida")
     debugger
-    console.log(entradaFormateada, salidaFormateada)
+
+    console.log("entradas:", entradas)
+    console.log("salidas:", salidas)
+    console.log("checkBoxes:", checkBoxes)
 }
+
+// function hourRange(entrada, salida, checked) {
+//     let horaEn = []
+//     let minutEn = []
+//     let horaSal = []
+//     let minutSal = []
+//     let entradaFormateada = []
+//     let salidaFormateada = []
+//     let totalHoras = []
+
+//     const checkBoxArray = Object.entries(checked);
+//     const keyCheckBox = Object.keys(checked);
+
+//     const entradaArray = Object.entries(entrada);
+//     const keysEntradas = Object.keys(entrada);
+
+//     const salidaArray = Object.entries(salida);
+//     const keysSalidas = Object.keys(salida);
+
+//     if (validarCampos(entrada, salida)) {
+//         entradaArray.forEach((subArray, index) => {
+//             [horaEn[index], minutEn[index]] = subArray[1].split(":")
+//             entradaFormateada[index] = Number(horaEn[index]) + Number(minutEn[index] / 60)
+//         })
+//         salidaArray.forEach((subArray, index) => {
+//             [horaSal[index], minutSal[index]] = subArray[1].split(":")
+//             salidaFormateada[index] = Number(horaSal[index]) + Number(minutSal[index] / 60)
+//         })Export
+
+
+//     }
+//     debugger
+//     console.log(entradaFormateada, salidaFormateada)
+// }
 
 function validarCampos(entrada, salida) {
     const ids = new Set([...Object.keys(entrada), ...Object.keys(salida)]);
@@ -107,7 +122,7 @@ export function imprimir() {
 export function guardar() {
     alert("guardar...");
 }
-export function Export() {
+export function excel() {
     alert("exoprtastr...");
 }
 

@@ -1,19 +1,9 @@
 import { useState } from "react";
 import HourRange from "../components/HourRange";
 import TotalHours from "../components/TotalHours";
+import { handleSubmit } from "../utils/utils";
 function FormContainer(props) {
-  const {
-    horaEntrada,
-    setHoraEntrada,
-    horaSalida,
-    setHoraSalida,
-    month,
-    setMonth,
-    metodo,
-    setMetodo,
-    checked,
-    setChecked,
-  } = props;
+  const { month, setMonth, metodo, setMetodo } = props;
   let seleccion = {
     componente: null,
     metodo: null,
@@ -26,33 +16,13 @@ function FormContainer(props) {
       break;
     case "rangoHoras":
       seleccion = {
-        componente: (
-          <HourRange
-            horaEntrada={horaEntrada}
-            setHoraEntrada={setHoraEntrada}
-            horaSalida={horaSalida}
-            setHoraSalida={setHoraSalida}
-            month={month}
-            setMonth={setMonth}
-            checked={checked}
-            setChecked={setChecked}
-          />
-        ),
+        componente: <HourRange month={month} setMonth={setMonth} />,
         metodo: metodo,
       };
       break;
     case "cantidadHoras":
       seleccion = {
-        componente: (
-          <TotalHours
-            horaEntrada={horaEntrada}
-            setHoraEntrada={setHoraEntrada}
-            horaSalida={horaSalida}
-            setHoraSalida={setHoraSalida}
-            month={month}
-            setMonth={setMonth}
-          />
-        ),
+        componente: <TotalHours month={month} setMonth={setMonth} />,
         metodo: metodo,
       };
       break;
@@ -77,7 +47,7 @@ function FormContainer(props) {
             <option value="cantidadHoras">Horas trabajadas</option>
           </select>
         </div>
-        <form>{seleccion.componente}</form>
+        <form onSubmit={handleSubmit} id="formHoras">{seleccion.componente}</form>
       </div>
     </>
   );
