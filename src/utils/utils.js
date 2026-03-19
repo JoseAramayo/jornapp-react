@@ -2,7 +2,6 @@ import { parse } from "date-fns";
 import { HORAS } from "./constants.js"
 import { toast } from "react-toastify";
 
-
 export function calcular(e, metodo) {
     const notify = () => toast('Wow so easy !');
     e.preventDefault();
@@ -30,6 +29,10 @@ function hourRange(e) {
     const salidas = formatearDatos(datos.salidas)
     const checkBoxs = datos.checkBoxs
 
+    let feriaDomingos
+    let diaNormales
+    // let diasLibres
+
     entradas.forEach((item, index) => {
         if (salidas[index] == 0) salidas[index] = MEDIA_NOCHE;
         if (salidas[index] < entradas[index]) {
@@ -39,7 +42,7 @@ function hourRange(e) {
             if (entradas[index] == 0 && salidas[index] == MEDIA_NOCHE) {
                 esDiaLibre(entradas, salidas, index);
             } else {
-                checkBoxs[index].checked ? esFeriadoDomingo(entradas, salidas, index) : esDiaNormal(entradas, salidas, index);
+                checkBoxs[index].checked ? feriaDomingos = esFeriadoDomingo(entradas, salidas, index) : diaNormales = esDiaNormal(entradas, salidas, index);
             }
         }
     })
@@ -147,7 +150,6 @@ function esFeriadoDomingo(entradas, salidas, index) {
     let totalDFerdom = [];
     let horasNocturnas = [];
     let totalNFerdom = [];
-    debugger
 
     if (entradas[index] >= INICIO_DIURNAS && entradas[index] < INICIO_NOCTURNAS) {
         if (salidas[index] <= INICIO_NOCTURNAS) {
