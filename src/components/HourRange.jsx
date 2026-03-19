@@ -22,7 +22,7 @@ function HourRange(props) {
             <div className="columnChkBox">
               <input
                 type="checkbox"
-                className="arrayCheckBoxFerDom"
+                className="checkbox-fer-dom"
                 id={`checkId${day}`}
                 name="checkBoxDays"
                 disabled={esDomingo}

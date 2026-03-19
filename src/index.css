@@ -298,10 +298,6 @@ input[type="time"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-input[type="checkbox"] {
-    width: 100%;
-
-}
 
 .divRow,
 .referenceTable {
@@ -333,15 +329,13 @@ input[type="checkbox"] {
 .inputMS {
     width: 100%;
     border-radius: 3px;
-    user-select: none;
+    /* user-select: none; */
 }
 
-.arrayCheckBoxFerDom {
-    width: 20px;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
+.checkbox-fer-dom {
+    width: 100%;
 }
+
 
 .inputJHDN,
 .inputJHN,
@@ -495,7 +489,7 @@ table {
 
 thead {
     text-decoration: underline;
-    
+
 }
 
 .centrarTexto {

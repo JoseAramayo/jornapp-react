@@ -1,7 +1,10 @@
 import { parse } from "date-fns";
 import { HORAS } from "./constants.js"
+import { toast } from "react-toastify";
+
 
 export function calcular(e, metodo) {
+    const notify = () => toast('Wow so easy !');
     e.preventDefault();
     switch (metodo) {
         case "rangoHoras":
@@ -11,30 +14,47 @@ export function calcular(e, metodo) {
             totalHour(e);
             break;
         default:
-            alert("Selecciona un método de carga.")
-            return
+            toast.info("Seleccione un método");
+            break
     }
 }
 
 function hourRange(e) {
+    let camposOk = validarCampos(e)
+    debugger
+    if (!camposOk) {
+        return false
+    }
     const datos = getDatos(e);
     const entradas = formatearDatos(datos.entradas)
     const salidas = formatearDatos(datos.salidas)
-    
+}
+
+function validarCampos(e) {
+    const form = new FormData(e.currentTarget)
+    const entradas = form.getAll("entrada")
+    const salidas = form.getAll("salida")
+    for (let index = 0; index < entradas.length; index++) {
+        if ((entradas[index] != "" && salidas[index] == "") || (entradas[index] == "" && salidas[index] != "")) {
+            toast.warning("Hay filas incompletas");
+            return false
+        }
+    }
+    return true
 }
 
 function getDatos(e) {
     const form = new FormData(e.currentTarget)
-    const checkBoxes = form.getAll("checkBoxDays")
+    const checkBoxes = document.querySelectorAll('input[name="checkBoxDays"]')
     const entradas = form.getAll("entrada")
     const salidas = form.getAll("salida")
-
     return {
         checkBoxes: checkBoxes,
         entradas: entradas,
         salidas: salidas
     }
 }
+
 
 function formatearDatos(datos) {
     let array = []
@@ -50,42 +70,41 @@ function formatearDatos(datos) {
         }
         array.push(total)
     })
-    debugger
     return array
 }
 
 
 
 function esDiaNormal(indice) {
-    if (arrayHoraEntrada[indice] >= INICIO_DIURNAS && arrayHoraEntrada[indice] < INICIO_NOCTURNAS) {
-        if (arrayHoraSalida[indice] <= INICIO_NOCTURNAS) {
-            arrayHorasDiurnas[indice] = arrayHoraSalida[indice] - arrayHoraEntrada[indice];
-            totalDiurnas += arrayHorasDiurnas[indice];
-            arrayHorasNocturnas[indice] = 0;
+    if (entradas[indice] >= INICIO_DIURNAS && entradas[indice] < INICIO_NOCTURNAS) {
+        if (salidas[indice] <= INICIO_NOCTURNAS) {
+            horasDiurnas[indice] = salidas[indice] - entradas[indice];
+            totalDiurnas += horasDiurnas[indice];
+            horasNocturnas[indice] = 0;
         } else {
-            arrayHorasDiurnas[indice] = INICIO_NOCTURNAS - arrayHoraEntrada[indice];
-            arrayHorasNocturnas[indice] = arrayHoraSalida[indice] - INICIO_NOCTURNAS;
-            totalDiurnas += arrayHorasDiurnas[indice];
-            totalNocturnas += arrayHorasNocturnas[indice];
+            horasDiurnas[indice] = INICIO_NOCTURNAS - entradas[indice];
+            horasNocturnas[indice] = salidas[indice] - INICIO_NOCTURNAS;
+            totalDiurnas += horasDiurnas[indice];
+            totalNocturnas += horasNocturnas[indice];
         }
-    } else if ((arrayHoraEntrada[indice] >= INICIO_NOCTURNAS && arrayHoraEntrada[indice] < MEDIA_NOCHE)) {
-        arrayHorasNocturnas[indice] = arrayHoraSalida[indice] - arrayHoraEntrada[indice];
-        totalNocturnas += arrayHorasNocturnas[indice];
+    } else if ((entradas[indice] >= INICIO_NOCTURNAS && entradas[indice] < MEDIA_NOCHE)) {
+        horasNocturnas[indice] = salidas[indice] - entradas[indice];
+        totalNocturnas += horasNocturnas[indice];
 
-        arrayHorasDiurnas[indice] = 0;
-    } else if (arrayHoraEntrada[indice] >= 0 && arrayHoraEntrada[indice] < INICIO_DIURNAS) {
-        if (arrayHoraSalida[indice] === MEDIA_NOCHE) {
-            arrayHoraSalida[indice] = 0;
+        horasDiurnas[indice] = 0;
+    } else if (entradas[indice] >= 0 && entradas[indice] < INICIO_DIURNAS) {
+        if (salidas[indice] === MEDIA_NOCHE) {
+            salidas[indice] = 0;
         }
-        if (arrayHoraSalida[indice] <= INICIO_DIURNAS) {
-            arrayHorasNocturnas[indice] = arrayHoraSalida[indice] - arrayHoraEntrada[indice];
-            totalNocturnas += arrayHorasNocturnas[indice];
-            arrayHorasDiurnas[indice] = 0;
+        if (salidas[indice] <= INICIO_DIURNAS) {
+            horasNocturnas[indice] = salidas[indice] - entradas[indice];
+            totalNocturnas += horasNocturnas[indice];
+            horasDiurnas[indice] = 0;
         } else {
-            arrayHorasNocturnas[indice] = INICIO_DIURNAS - arrayHoraEntrada[indice];
-            arrayHorasDiurnas[indice] = arrayHoraSalida[indice] - INICIO_DIURNAS;
-            totalDiurnas += arrayHorasDiurnas[indice];
-            totalNocturnas += arrayHorasNocturnas[indice];
+            horasNocturnas[indice] = INICIO_DIURNAS - entradas[indice];
+            horasDiurnas[indice] = salidas[indice] - INICIO_DIURNAS;
+            totalDiurnas += horasDiurnas[indice];
+            totalNocturnas += horasNocturnas[indice];
         }
     }
 }
@@ -105,18 +124,18 @@ export function excel() {
 }
 
 
-function validarCampos(entrada, salida) {
-    const ids = new Set([...Object.keys(entrada), ...Object.keys(salida)]);
-    const valido = Array.from(ids).every((id) => {
-        const idEntrada = (entrada[id] ?? "").trim();
-        const idSalida = (salida[id] ?? "").trim();
-        const enVacio = idEntrada === "";
-        const saVacio = idSalida === "";
-        return enVacio === saVacio;
-    });
-    if (!valido) {
-        alert("Hay filas incompletas.")
-        return false;
-    }
-    return true
-}
+// function validarCampos(entrada, salida) {
+//     const ids = new Set([...Object.keys(entrada), ...Object.keys(salida)]);
+//     const valido = Array.from(ids).every((id) => {
+//         const idEntrada = (entrada[id] ?? "").trim();
+//         const idSalida = (salida[id] ?? "").trim();
+//         const enVacio = idEntrada === "";
+//         const saVacio = idSalida === "";
+//         return enVacio === saVacio;
+//     });
+//     if (!valido) {
+//         alert("Hay filas incompletas.")
+//         return false;
+//     }
+//     return true
+// }

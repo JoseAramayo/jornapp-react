@@ -5,6 +5,8 @@ import Footer from "../src/components/Footer";
 import FormContainer from "../src/components/FormContainer";
 import Nav from "../src/components/Nav";
 import SelectMonth from "../src/components/SelectMonth";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [month, setMonth] = useState(getMonth(new Date()));
@@ -23,6 +25,7 @@ function App() {
         <ContainerTable metodo={metodo} />
       </div>
       <Footer />
+      <ToastContainer position="bottom-center" autoClose={2000} />
     </>
   );
 }

@@ -21,7 +21,7 @@ function TotalHours(props) {
             <div className="columnChkBox">
               <input
                 type="checkbox"
-                className="arrayCheckBoxFerDom"
+                className="checkbox-fer-dom"
                 id={`checkBoxId${day}`}
                 name="checkBoxDays"
                 disabled={esDomingo}
