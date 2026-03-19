@@ -1,7 +1,7 @@
 import { useState } from "react";
 import HourRange from "../components/HourRange";
 import TotalHours from "../components/TotalHours";
-import { handleSubmit } from "../utils/utils";
+import { calcular } from "../utils/utils";
 function FormContainer(props) {
   const { month, setMonth, metodo, setMetodo } = props;
   let seleccion = {
@@ -47,7 +47,7 @@ function FormContainer(props) {
             <option value="cantidadHoras">Horas trabajadas</option>
           </select>
         </div>
-        <form onSubmit={handleSubmit} id="formHoras">{seleccion.componente}</form>
+        <form onSubmit={(e) => calcular(e, metodo)} id="formHoras">{seleccion.componente}</form>
       </div>
     </>
   );

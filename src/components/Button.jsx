@@ -1,4 +1,4 @@
-function Button({ className, onClick, id, type, form, children }) {
+function Button({ className, onClick, id, type, form, children, onSubmit }) {
   return (
     <button
       className={className}
@@ -6,6 +6,7 @@ function Button({ className, onClick, id, type, form, children }) {
       id={id}
       type={type}
       form={form}
+      onSubmit={onSubmit}
     >
       {children}
     </button>

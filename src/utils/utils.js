@@ -1,81 +1,59 @@
 import { parse } from "date-fns";
-import { JORNAL, HORAS } from "./constants.js"
-export function calcular(metodo, entrada, salida, checked) {
+import { HORAS } from "./constants.js"
+
+export function calcular(e, metodo) {
+    e.preventDefault();
     switch (metodo) {
         case "rangoHoras":
-            hourRange(entrada, salida, checked);
+            hourRange(e);
             break;
         case "cantidadHoras":
-            totalHour(entrada, salida, checked);
+            totalHour(e);
             break;
         default:
             alert("Selecciona un método de carga.")
+            return
     }
 }
-export function handleSubmit(e) {
-    e.preventDefault();
-    console.log("handleSubmit...")
-    const form = new FormData(e.currentTarget)
 
+function hourRange(e) {
+    const datos = getDatos(e);
+    const entradas = formatearDatos(datos.entradas)
+    const salidas = formatearDatos(datos.salidas)
+    
+}
+
+function getDatos(e) {
+    const form = new FormData(e.currentTarget)
     const checkBoxes = form.getAll("checkBoxDays")
     const entradas = form.getAll("entrada")
     const salidas = form.getAll("salida")
-    debugger
 
-    console.log("entradas:", entradas)
-    console.log("salidas:", salidas)
-    console.log("checkBoxes:", checkBoxes)
-}
-
-// function hourRange(entrada, salida, checked) {
-//     let horaEn = []
-//     let minutEn = []
-//     let horaSal = []
-//     let minutSal = []
-//     let entradaFormateada = []
-//     let salidaFormateada = []
-//     let totalHoras = []
-
-//     const checkBoxArray = Object.entries(checked);
-//     const keyCheckBox = Object.keys(checked);
-
-//     const entradaArray = Object.entries(entrada);
-//     const keysEntradas = Object.keys(entrada);
-
-//     const salidaArray = Object.entries(salida);
-//     const keysSalidas = Object.keys(salida);
-
-//     if (validarCampos(entrada, salida)) {
-//         entradaArray.forEach((subArray, index) => {
-//             [horaEn[index], minutEn[index]] = subArray[1].split(":")
-//             entradaFormateada[index] = Number(horaEn[index]) + Number(minutEn[index] / 60)
-//         })
-//         salidaArray.forEach((subArray, index) => {
-//             [horaSal[index], minutSal[index]] = subArray[1].split(":")
-//             salidaFormateada[index] = Number(horaSal[index]) + Number(minutSal[index] / 60)
-//         })Export
-
-
-//     }
-//     debugger
-//     console.log(entradaFormateada, salidaFormateada)
-// }
-
-function validarCampos(entrada, salida) {
-    const ids = new Set([...Object.keys(entrada), ...Object.keys(salida)]);
-    const valido = Array.from(ids).every((id) => {
-        const idEntrada = (entrada[id] ?? "").trim();
-        const idSalida = (salida[id] ?? "").trim();
-        const enVacio = idEntrada === "";
-        const saVacio = idSalida === "";
-        return enVacio === saVacio;
-    });
-    if (!valido) {
-        alert("Hay filas incompletas.")
-        return false;
+    return {
+        checkBoxes: checkBoxes,
+        entradas: entradas,
+        salidas: salidas
     }
-    return true
 }
+
+function formatearDatos(datos) {
+    let array = []
+    let [hora, minuto] = []
+    let total;
+    datos.forEach(item => {
+        if (item == "") {
+            total = 0
+        } else {
+            [hora, minuto] = item.split(":")
+            minuto = (minuto / 60).toFixed(2)
+            total = Number(hora) + Number(minuto)
+        }
+        array.push(total)
+    })
+    debugger
+    return array
+}
+
 
 
 function esDiaNormal(indice) {
@@ -117,18 +95,28 @@ export function reiniciar() {
     window.location.reload();
 }
 export function imprimir() {
-    alert("impoirimr...");
+    alert("imprimiendo...");
 }
 export function guardar() {
-    alert("guardar...");
+    alert("guardando excel...");
 }
 export function excel() {
-    alert("exoprtastr...");
+    alert("generando excel...");
 }
 
-export function getHoraEntrada(day, datos) {
-    console.log(day, datos)
-}
-export function getHorasalida(datos) {
-    const arraySalidas = []
+
+function validarCampos(entrada, salida) {
+    const ids = new Set([...Object.keys(entrada), ...Object.keys(salida)]);
+    const valido = Array.from(ids).every((id) => {
+        const idEntrada = (entrada[id] ?? "").trim();
+        const idSalida = (salida[id] ?? "").trim();
+        const enVacio = idEntrada === "";
+        const saVacio = idSalida === "";
+        return enVacio === saVacio;
+    });
+    if (!valido) {
+        alert("Hay filas incompletas.")
+        return false;
+    }
+    return true
 }

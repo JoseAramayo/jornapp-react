@@ -1,6 +1,6 @@
 import * as constants from "../utils/constants";
 import {
-  handleSubmit,
+  calcular,
   reiniciar,
   imprimir,
   guardar,
@@ -8,7 +8,7 @@ import {
 } from "../utils/utils";
 import Button from "./Button";
 function ContainerTable(props) {
-  const { horaEntrada, horaSalida, metodo, checked } = props;
+  const { metodo } = props;
 
   return (
     <>
@@ -134,7 +134,12 @@ function ContainerTable(props) {
         <hr />
         <div className="containerDivs">
           <div className="containerButtons">
-            <Button className="btnCalcular" form="formHoras" type="submit">
+            <Button
+              className="btnCalcular"
+              form="formHoras"
+              type="submit"
+              onSubmit={(e) => calcular(e, metodo)}
+            >
               <img src="/icons/calculator.svg" alt="Calcular" />
             </Button>
             <Button className="btnRefresh" onClick={reiniciar}>
