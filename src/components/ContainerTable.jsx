@@ -140,19 +140,19 @@ function ContainerTable(props) {
               type="submit"
               onSubmit={(e) => calcular(e, metodo)}
             >
-              <img src="/icons/calculator.svg" alt="Calcular" />
+              <img src="/icons/calculator.svg" alt="Calcular" className="inverted-icon"/>
             </Button>
             <Button className="btnRefresh" onClick={reiniciar}>
-              <img src="/icons/refresh-ccw.svg" alt="Calcular" />
+              <img src="/icons/refresh-ccw.svg" alt="Calcular" className="inverted-icon"/>
             </Button>
             <Button className="btnPrint" onClick={imprimir}>
-              <img src="/icons/file-text.svg" alt="Pdf" />
+              <img src="/icons/file-text.svg" alt="Pdf" className="inverted-icon"/>
             </Button>
             <Button className="btnSave" onClick={guardar}>
-              <img src="/icons/save.svg" alt="Guardar" />
+              <img src="/icons/save.svg" alt="Guardar" className="inverted-icon"/>
             </Button>
             <Button className="btnExport" onClick={excel}>
-              <img src="/icons/sheet.svg" alt="Excel" />
+              <img src="/icons/sheet.svg" alt="Excel" className="inverted-icon"/>
             </Button>
           </div>
           <hr />

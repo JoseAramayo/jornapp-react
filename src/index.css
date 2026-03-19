@@ -495,3 +495,7 @@ thead {
 .centrarTexto {
     text-align: center;
 }
+
+.inverted-icon{
+    filter: invert(1);
+}
