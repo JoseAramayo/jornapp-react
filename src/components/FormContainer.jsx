@@ -3,7 +3,7 @@ import HourRange from "../components/HourRange";
 import TotalHours from "../components/TotalHours";
 import { calcular } from "../utils/utils";
 function FormContainer(props) {
-  const { month, setMonth, metodo, setMetodo } = props;
+  const { month, setMonth, metodo, setMetodo, setResultados } = props;
   let seleccion = {
     componente: null,
     metodo: null,
@@ -47,7 +47,15 @@ function FormContainer(props) {
             <option value="cantidadHoras">Horas trabajadas</option>
           </select>
         </div>
-        <form onSubmit={(e) => calcular(e, metodo)} id="formHoras">{seleccion.componente}</form>
+        <form
+          onSubmit={(e) => {
+            const resultados = calcular(e, metodo);
+            if (resultados) setResultados(resultados);
+          }}
+          id="formHoras"
+        >
+          {seleccion.componente}
+        </form>
       </div>
     </>
   );

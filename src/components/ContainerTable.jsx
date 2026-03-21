@@ -1,14 +1,11 @@
 import * as constants from "../utils/constants";
-import {
-  calcular,
-  reiniciar,
-  imprimir,
-  guardar,
-  excel,
-} from "../utils/utils";
+import { calcular, reiniciar, imprimir, guardar, excel } from "../utils/utils";
 import Button from "./Button";
 function ContainerTable(props) {
-  const { metodo } = props;
+  const { JORNAL } = constants;
+  const { diurno, nocturno, nocturnoFerDom, diurnoFerDom } = JORNAL;
+  const { metodo, resultados } = props;
+  const { diasNormales, feriaDomingos } = resultados;
 
   return (
     <>
@@ -44,61 +41,57 @@ function ContainerTable(props) {
           <tbody>
             <tr>
               <td className="centrarTexto ">Jornal Diurno</td>
-              <td className="centrarTexto ">Gs. {constants.JORNAL.diurno}</td>
+              <td className="centrarTexto ">Gs. {diurno}</td>
               <td className="centrarTexto">
                 <span className="bgColorCustom" id="spanTotalDiurnas">
-                  --
+                  {diasNormales?.totalDiurnas ?? "--"}
                 </span>
               </td>
               <td className="centrarTexto">
                 <span className="bgColorCustom" id="spanCobroDiurnas">
-                  --
+                  {diasNormales?.cobrarDiurnas ?? "--"}
                 </span>
               </td>
             </tr>
             <tr>
               <td className="centrarTexto">Jornal Nocturno</td>
-              <td className="centrarTexto">Gs. {constants.JORNAL.nocturno}</td>
+              <td className="centrarTexto">Gs. {nocturno}</td>
               <td className="centrarTexto">
                 <span className="bgColorCustom" id="spanTotalDiurnas">
-                  --
+                  {diasNormales?.totalNocturnas ?? "--"}
                 </span>
               </td>
               <td className="centrarTexto">
                 <span className="bgColorCustom" id="spanCobroDiurnas">
-                  --
+                  {diasNormales?.cobrarNocturnas ?? "--"}
                 </span>
               </td>
             </tr>
             <tr>
               <td className="centrarTexto">Diurnas Fer/Dom</td>
-              <td className="centrarTexto">
-                Gs. {constants.JORNAL.diurnoFerDom}
-              </td>
+              <td className="centrarTexto">Gs. {diurnoFerDom}</td>
               <td className="centrarTexto">
                 <span className="bgColorCustom" id="spanTotalDiurnas">
-                  --
+                  {feriaDomingos?.totalDiurnas ?? "--"}
                 </span>
               </td>
               <td className="centrarTexto">
                 <span className="bgColorCustom" id="spanCobroDiurnas">
-                  --
+                  {feriaDomingos?.cobrarDiurnas ?? "--"}
                 </span>
               </td>
             </tr>
             <tr>
               <td className="centrarTexto">Nocturnas Fer/Dom</td>
-              <td className="centrarTexto">
-                Gs. {constants.JORNAL.nocturnoFerDom}
-              </td>
+              <td className="centrarTexto">Gs. {nocturnoFerDom}</td>
               <td className="centrarTexto">
                 <span className="bgColorCustom" id="spanTotalDiurnas">
-                  --
+                  {feriaDomingos?.totalNocturnas ?? "--"}
                 </span>
               </td>
               <td className="centrarTexto">
                 <span className="bgColorCustom" id="spanCobroDiurnas">
-                  --
+                  {feriaDomingos?.cobrarNocturnas ?? "--"}
                 </span>
               </td>
             </tr>
@@ -140,19 +133,39 @@ function ContainerTable(props) {
               type="submit"
               onSubmit={(e) => calcular(e, metodo)}
             >
-              <img src="/icons/calculator.svg" alt="Calcular" className="inverted-icon"/>
+              <img
+                src="/icons/calculator.svg"
+                alt="Calcular"
+                className="inverted-icon"
+              />
             </Button>
             <Button className="btnRefresh" onClick={reiniciar}>
-              <img src="/icons/refresh-ccw.svg" alt="Calcular" className="inverted-icon"/>
+              <img
+                src="/icons/refresh-ccw.svg"
+                alt="Calcular"
+                className="inverted-icon"
+              />
             </Button>
             <Button className="btnPrint" onClick={imprimir}>
-              <img src="/icons/file-text.svg" alt="Pdf" className="inverted-icon"/>
+              <img
+                src="/icons/file-text.svg"
+                alt="Pdf"
+                className="inverted-icon"
+              />
             </Button>
             <Button className="btnSave" onClick={guardar}>
-              <img src="/icons/save.svg" alt="Guardar" className="inverted-icon"/>
+              <img
+                src="/icons/save.svg"
+                alt="Guardar"
+                className="inverted-icon"
+              />
             </Button>
             <Button className="btnExport" onClick={excel}>
-              <img src="/icons/sheet.svg" alt="Excel" className="inverted-icon"/>
+              <img
+                src="/icons/sheet.svg"
+                alt="Excel"
+                className="inverted-icon"
+              />
             </Button>
           </div>
           <hr />

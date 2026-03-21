@@ -1,17 +1,16 @@
-import { parse } from "date-fns";
-import { HORAS } from "./constants.js"
+import { HORAS, JORNAL } from "./constants.js"
 import { toast } from "react-toastify";
 
 export function calcular(e, metodo) {
+
+
     const notify = () => toast('Wow so easy !');
     e.preventDefault();
     switch (metodo) {
         case "rangoHoras":
-            hourRange(e);
-            break;
+            return hourRange(e);
         case "cantidadHoras":
-            totalHour(e);
-            break;
+            return totalHour(e);
         default:
             toast.info("Seleccione un método");
             break
@@ -29,23 +28,50 @@ function hourRange(e) {
     const salidas = formatearDatos(datos.salidas)
     const checkBoxs = datos.checkBoxs
 
-    let feriaDomingos
-    let diaNormales
-    // let diasLibres
+    const acumuladoNormales = {
+        totalDiurnas: 0,
+        totalNocturnas: 0,
+        cobrarDiurnas: 0,
+        cobrarNocturnas: 0,
+    };
+    const acumuladoFerDom = {
+        totalDiurnas: 0,
+        totalNocturnas: 0,
+        cobrarDiurnas: 0,
+        cobrarNocturnas: 0,
+    };
 
-    entradas.forEach((item, index) => {
+    for (let index = 0; index < entradas.length; index++) {
         if (salidas[index] == 0) salidas[index] = MEDIA_NOCHE;
         if (salidas[index] < entradas[index]) {
             toast.error("La Hora de Salida es menor a la Entrada")
             return false;
-        } else {
-            if (entradas[index] == 0 && salidas[index] == MEDIA_NOCHE) {
-                esDiaLibre(entradas, salidas, index);
-            } else {
-                checkBoxs[index].checked ? feriaDomingos = esFeriadoDomingo(entradas, salidas, index) : diaNormales = esDiaNormal(entradas, salidas, index);
-            }
         }
-    })
+
+        if (entradas[index] == 0 && salidas[index] == MEDIA_NOCHE) {
+            esDiaLibre(entradas, salidas, index);
+            continue;
+        }
+
+        if (checkBoxs[index].checked) {
+            const resultadoFerDom = esFeriadoDomingo(entradas, salidas, index);
+            acumuladoFerDom.totalDiurnas += resultadoFerDom.totalDiurnas;
+            acumuladoFerDom.totalNocturnas += resultadoFerDom.totalNocturnas;
+            acumuladoFerDom.cobrarDiurnas += resultadoFerDom.cobrarDiurnas;
+            acumuladoFerDom.cobrarNocturnas += resultadoFerDom.cobrarNocturnas;
+        } else {
+            const resultadoNormal = esDiaNormal(entradas, salidas, index);
+            acumuladoNormales.totalDiurnas += resultadoNormal.totalDiurnas;
+            acumuladoNormales.totalNocturnas += resultadoNormal.totalNocturnas;
+            acumuladoNormales.cobrarDiurnas += resultadoNormal.cobrarDiurnas;
+            acumuladoNormales.cobrarNocturnas += resultadoNormal.cobrarNocturnas;
+        }
+    }
+
+    return {
+        feriaDomingos: acumuladoFerDom,
+        diasNormales: acumuladoNormales
+    }
 }
 
 function validarCampos(e) {
@@ -94,47 +120,39 @@ function formatearDatos(datos) {
 
 
 function esDiaNormal(entradas, salidas, index) {
+    const {
+        diurno,
+        nocturno } = JORNAL
     const { INICIO_DIURNAS, INICIO_NOCTURNAS, MEDIA_NOCHE } = HORAS
-    let horasDiurnas = [];
-    let totalDiurnas = [];
-    let horasNocturnas = [];
-    let totalNocturnas = [];
+    let totalDiurnas = 0;
+    let totalNocturnas = 0;
+
     if (entradas[index] >= INICIO_DIURNAS && entradas[index] < INICIO_NOCTURNAS) {
         if (salidas[index] <= INICIO_NOCTURNAS) {
-            horasDiurnas[index] = salidas[index] - entradas[index];
-            totalDiurnas += horasDiurnas[index];
-            horasNocturnas[index] = 0;
+            totalDiurnas = salidas[index] - entradas[index];
         } else {
-            horasDiurnas[index] = INICIO_NOCTURNAS - entradas[index];
-            horasNocturnas[index] = salidas[index] - INICIO_NOCTURNAS;
-            totalDiurnas += horasDiurnas[index];
-            totalNocturnas += horasNocturnas[index];
+            totalDiurnas = INICIO_NOCTURNAS - entradas[index];
+            totalNocturnas = salidas[index] - INICIO_NOCTURNAS;
         }
     } else if ((entradas[index] >= INICIO_NOCTURNAS && entradas[index] < MEDIA_NOCHE)) {
-        horasNocturnas[index] = salidas[index] - entradas[index];
-        totalNocturnas += horasNocturnas[index];
-
-        horasDiurnas[index] = 0;
+        totalNocturnas = salidas[index] - entradas[index];
     } else if (entradas[index] >= 0 && entradas[index] < INICIO_DIURNAS) {
         if (salidas[index] === MEDIA_NOCHE) {
             salidas[index] = 0;
         }
         if (salidas[index] <= INICIO_DIURNAS) {
-            horasNocturnas[index] = salidas[index] - entradas[index];
-            totalNocturnas += horasNocturnas[index];
-            horasDiurnas[index] = 0;
+            totalNocturnas = salidas[index] - entradas[index];
         } else {
-            horasNocturnas[index] = INICIO_DIURNAS - entradas[index];
-            horasDiurnas[index] = salidas[index] - INICIO_DIURNAS;
-            totalDiurnas += horasDiurnas[index];
-            totalNocturnas += horasNocturnas[index];
+            totalNocturnas = INICIO_DIURNAS - entradas[index];
+            totalDiurnas = salidas[index] - INICIO_DIURNAS;
         }
     }
+
     return {
-        horasDiurnas: horasDiurnas,
         totalDiurnas: totalDiurnas,
-        horasNocturnas: horasNocturnas,
-        totalNocturnas: totalNocturnas
+        totalNocturnas: totalNocturnas,
+        cobrarDiurnas: diurno * totalDiurnas,
+        cobrarNocturnas: nocturno * totalNocturnas
     }
 }
 
@@ -145,47 +163,39 @@ function esDiaLibre(entradas, salidas, index) {
 }
 
 function esFeriadoDomingo(entradas, salidas, index) {
+    const {
+        diurnoFerDom,
+        nocturnoFerDom } = JORNAL
     const { INICIO_DIURNAS, INICIO_NOCTURNAS, MEDIA_NOCHE } = HORAS
-    let horasDiurnas = [];
-    let totalDFerdom = [];
-    let horasNocturnas = [];
-    let totalNFerdom = [];
+    let totalDiurnas = 0;
+    let totalNocturnas = 0;
 
     if (entradas[index] >= INICIO_DIURNAS && entradas[index] < INICIO_NOCTURNAS) {
         if (salidas[index] <= INICIO_NOCTURNAS) {
-            horasDiurnas[index] = salidas[index] - entradas[index];
-            totalDFerdom += horasDiurnas[index];
-            horasNocturnas[index] = 0;
+            totalDiurnas = salidas[index] - entradas[index];
         } else {
-            horasDiurnas[index] = INICIO_NOCTURNAS - entradas[index];
-            horasNocturnas[index] = salidas[index] - INICIO_NOCTURNAS;
-            totalDFerdom += horasDiurnas[index];
-            totalNFerdom += horasNocturnas[index];
+            totalDiurnas = INICIO_NOCTURNAS - entradas[index];
+            totalNocturnas = salidas[index] - INICIO_NOCTURNAS;
         }
     } else if ((entradas[index] >= INICIO_NOCTURNAS && entradas[index] < MEDIA_NOCHE)) {
-        horasNocturnas[index] = salidas[index] - entradas[index];
-        totalNFerdom += horasNocturnas[index];
-        horasDiurnas[index] = 0;
+        totalNocturnas = salidas[index] - entradas[index];
     } else if (entradas[index] >= 0 && entradas[index] < INICIO_DIURNAS) {
         if (salidas[index] === MEDIA_NOCHE) {
             salidas[index] = 0;
         }
         if (salidas[index] <= INICIO_DIURNAS) {
-            horasNocturnas[index] = salidas[index] - entradas[index];
-            totalNFerdom += horasNocturnas[index];
-            horasDiurnas[index] = 0;
+            totalNocturnas = salidas[index] - entradas[index];
         } else {
-            horasNocturnas[index] = INICIO_DIURNAS - entradas[index];
-            horasDiurnas[index] = salidas[index] - INICIO_DIURNAS;
-            totalDFerdom += horasDiurnas[index];
-            totalNFerdom += horasNocturnas[index];
+            totalNocturnas = INICIO_DIURNAS - entradas[index];
+            totalDiurnas = salidas[index] - INICIO_DIURNAS;
         }
     }
+
     return {
-        horasDiurnas: horasDiurnas,
-        totalDFerdom: totalDFerdom,
-        horasNocturnas: horasNocturnas,
-        totalNFerdom: totalNFerdom
+        totalDiurnas: totalDiurnas,
+        totalNocturnas: totalNocturnas,
+        cobrarDiurnas: diurnoFerDom * totalDiurnas,
+        cobrarNocturnas: nocturnoFerDom * totalNocturnas
     }
 }
 

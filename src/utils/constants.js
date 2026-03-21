@@ -1,8 +1,8 @@
 export const JORNAL = {
-    diurno: 13.938,
-    nocturno: 18.119,
-    diurnoFerDom: 27.875,
-    nocturnoFerDom: 36.238
+    diurno: 13938,
+    nocturno: 18119,
+    diurnoFerDom: 27875,
+    nocturnoFerDom: 36238
 }
 
 export const HORAS = {

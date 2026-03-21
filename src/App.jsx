@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   const [month, setMonth] = useState(getMonth(new Date()));
   const [metodo, setMetodo] = useState("0");
+  const [resultados, setResultados] = useState({});
+
   return (
     <>
       <Nav />
@@ -21,11 +23,12 @@ function App() {
           setMonth={setMonth}
           metodo={metodo}
           setMetodo={setMetodo}
+          setResultados={setResultados}
         />
-        <ContainerTable metodo={metodo} />
+        <ContainerTable metodo={metodo} resultados={resultados} />
       </div>
       <Footer />
-      <ToastContainer position="bottom-center" autoClose={2000} />
+      <ToastContainer position="bottom-left" autoClose={3000} />
     </>
   );
 }
