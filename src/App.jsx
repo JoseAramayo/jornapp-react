@@ -28,7 +28,7 @@ function App() {
         <ContainerTable metodo={metodo} resultados={resultados} />
       </div>
       <Footer />
-      <ToastContainer position="bottom-left" autoClose={3000} />
+      <ToastContainer position="bottom-center" autoClose={2000} />
     </>
   );
 }

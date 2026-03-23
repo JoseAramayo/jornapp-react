@@ -1,6 +1,7 @@
 import * as constants from "../utils/constants";
 import { calcular, reiniciar, imprimir, guardar, excel } from "../utils/utils";
 import Button from "./Button";
+import TableRow from "./TableRow";
 function ContainerTable(props) {
   const { JORNAL } = constants;
   const { diurno, nocturno, nocturnoFerDom, diurnoFerDom } = JORNAL;
@@ -39,62 +40,38 @@ function ContainerTable(props) {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="centrarTexto ">Jornal Diurno</td>
-              <td className="centrarTexto ">Gs. {diurno}</td>
-              <td className="centrarTexto">
-                <span className="bgColorCustom" id="spanTotalDiurnas">
-                  {diasNormales?.totalDiurnas ?? "--"}
-                </span>
-              </td>
-              <td className="centrarTexto">
-                <span className="bgColorCustom" id="spanCobroDiurnas">
-                  {diasNormales?.cobrarDiurnas ?? "--"}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td className="centrarTexto">Jornal Nocturno</td>
-              <td className="centrarTexto">Gs. {nocturno}</td>
-              <td className="centrarTexto">
-                <span className="bgColorCustom" id="spanTotalDiurnas">
-                  {diasNormales?.totalNocturnas ?? "--"}
-                </span>
-              </td>
-              <td className="centrarTexto">
-                <span className="bgColorCustom" id="spanCobroDiurnas">
-                  {diasNormales?.cobrarNocturnas ?? "--"}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td className="centrarTexto">Diurnas Fer/Dom</td>
-              <td className="centrarTexto">Gs. {diurnoFerDom}</td>
-              <td className="centrarTexto">
-                <span className="bgColorCustom" id="spanTotalDiurnas">
-                  {feriaDomingos?.totalDiurnas ?? "--"}
-                </span>
-              </td>
-              <td className="centrarTexto">
-                <span className="bgColorCustom" id="spanCobroDiurnas">
-                  {feriaDomingos?.cobrarDiurnas ?? "--"}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td className="centrarTexto">Nocturnas Fer/Dom</td>
-              <td className="centrarTexto">Gs. {nocturnoFerDom}</td>
-              <td className="centrarTexto">
-                <span className="bgColorCustom" id="spanTotalDiurnas">
-                  {feriaDomingos?.totalNocturnas ?? "--"}
-                </span>
-              </td>
-              <td className="centrarTexto">
-                <span className="bgColorCustom" id="spanCobroDiurnas">
-                  {feriaDomingos?.cobrarNocturnas ?? "--"}
-                </span>
-              </td>
-            </tr>
+            <TableRow
+              classNameTd={"centrarTexto"}
+              childrenA={"Jornal Diurno"}
+              childrenB={`Gs. ${diurno}`}
+              classNameSpan={"bgColorCustom"}
+              childrenC={diasNormales?.totalDiurnas ?? "--"}
+              childrenD={diasNormales?.cobrarDiurnas ?? "--"}
+            />
+            <TableRow
+              classNameTd={"centrarTexto"}
+              childrenA={"Jornal Nocturno"}
+              childrenB={`Gs. ${nocturno}`}
+              classNameSpan={"bgColorCustom"}
+              childrenC={diasNormales?.totalNocturnas ?? "--"}
+              childrenD={diasNormales?.cobrarNocturnas ?? "--"}
+            />
+            <TableRow
+              classNameTd={"centrarTexto"}
+              childrenA={"Diurnas Fer/Dom"}
+              childrenB={`Gs. ${diurnoFerDom}`}
+              classNameSpan={"bgColorCustom"}
+              childrenC={feriaDomingos?.totalDiurnas ?? "--"}
+              childrenD={feriaDomingos?.cobrarDiurnas ?? "--"}
+            />
+            <TableRow
+              classNameTd={"centrarTexto"}
+              childrenA={"Nocturnas Fer/Dom"}
+              childrenB={`Gs. ${nocturnoFerDom}`}
+              classNameSpan={"bgColorCustom"}
+              childrenC={feriaDomingos?.totalNocturnas ?? "--"}
+              childrenD={feriaDomingos?.cobrarNocturnas ?? "--"}
+            />
           </tbody>
         </table>
         <hr />
@@ -102,6 +79,7 @@ function ContainerTable(props) {
           <thead>
             <tr>
               <th>Días Libres</th>
+              <th>Total Horas</th>
               <th>% IPS</th>
               <th>Total bruto</th>
               <th>Total neto</th>
@@ -109,6 +87,9 @@ function ContainerTable(props) {
           </thead>
           <tbody>
             <tr>
+              <td className="centrarTexto">
+                <span className="bgColorCustom">--</span>
+              </td>
               <td className="centrarTexto">
                 <span className="bgColorCustom">--</span>
               </td>

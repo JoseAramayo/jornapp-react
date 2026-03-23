@@ -201,10 +201,11 @@ button {
     border: 1px solid #d1d1d1
 }
 
-.referenceTable span {
+/* .referenceTable span {
     color: #34495e;
     font-weight: 500;
-}
+    border-radius: 10px;
+} */
 
 .divGuia {
     height: auto;
@@ -362,6 +363,8 @@ input,
     justify-content: center;
     background-color: aliceblue;
     width: 100%;
+    border-radius: 10px;
+
 }
 
 .separador {
@@ -496,6 +499,6 @@ thead {
     text-align: center;
 }
 
-.inverted-icon{
+.inverted-icon {
     filter: invert(1);
 }

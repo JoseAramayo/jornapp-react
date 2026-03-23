@@ -67,7 +67,7 @@ function hourRange(e) {
             acumuladoNormales.cobrarNocturnas += resultadoNormal.cobrarNocturnas;
         }
     }
-
+    toast.success("Calculado correctamente!")
     return {
         feriaDomingos: acumuladoFerDom,
         diasNormales: acumuladoNormales
@@ -213,19 +213,4 @@ export function excel() {
     alert("generando excel...");
 }
 
-
-// function validarCampos(entrada, salida) {
-//     const ids = new Set([...Object.keys(entrada), ...Object.keys(salida)]);
-//     const valido = Array.from(ids).every((id) => {
-//         const idEntrada = (entrada[id] ?? "").trim();
-//         const idSalida = (salida[id] ?? "").trim();
-//         const enVacio = idEntrada === "";
-//         const saVacio = idSalida === "";
-//         return enVacio === saVacio;
-//     });
-//     if (!valido) {
-//         alert("Hay filas incompletas.")
-//         return false;
-//     }
-//     return true
-// }
+function formatearMoneda() { }
