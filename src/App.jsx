@@ -12,7 +12,17 @@ function App() {
   const [month, setMonth] = useState(getMonth(new Date()));
   const [metodo, setMetodo] = useState("0");
   const [resultados, setResultados] = useState({});
+  const [feriados, setFeriados] = useState([]);
 
+  //TODO:  Pasarle esto como prop a los componentes
+  const year = new Date().getFullYear();
+  fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/PY`)
+    .then((r) => r.json())
+    .then((data) => {
+      setFeriados(data);
+    })
+    .catch(() => setFeriados([]));
+    debugger
   return (
     <>
       <Nav />

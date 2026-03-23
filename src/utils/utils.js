@@ -2,8 +2,6 @@ import { HORAS, JORNAL } from "./constants.js"
 import { toast } from "react-toastify";
 
 export function calcular(e, metodo) {
-
-
     const notify = () => toast('Wow so easy !');
     e.preventDefault();
     switch (metodo) {
@@ -67,7 +65,6 @@ function hourRange(e) {
             acumuladoNormales.cobrarNocturnas += resultadoNormal.cobrarNocturnas;
         }
     }
-    toast.success("Calculado correctamente!")
     return {
         feriaDomingos: acumuladoFerDom,
         diasNormales: acumuladoNormales

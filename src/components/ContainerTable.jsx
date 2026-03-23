@@ -11,24 +11,6 @@ function ContainerTable(props) {
   return (
     <>
       <div className="containerTable">
-        {/* <div className="divGuia">
-                    <h4 className="Desplegable" onClick="toggleContenido()" title="Click para más información!">⬇ Click para ver
-                        instrucciones
-                    </h4>
-                    <div className="contenido" id="contenido">
-                        <ul>
-                            <li><b>Método:</b> Elije un método para cargar tus horas.</li>
-                            <li><b>Días libres:</b> No completar casillas.</li>
-                            <li><b>Fer/Dom:</b> Feriado/Domingo</li>
-                            <li><b>Feriados:</b> Márcalos manualmente.</li>
-                            <li><b>Domingos:</b> Se marcan automáticamente.</li>
-                            <li><b>PDF:</b> Descarga una “Captura de pantalla”.</li>
-                            <li><b>Guarda:</b> Exporta los datos en un archivo con tus horas cargadas.</li>
-                            <li><b>Importar:</b> Volverá a cargar tus horas en donde lo dejaste.</li>
-                            <li><b>Excel:</b> Exporta un Excel con las horas para compartirlo al supervisor.</li>
-                        </ul>
-                    </div>
-                </div> */}
         <hr />
         <table className="tableReference">
           <thead>
@@ -91,16 +73,42 @@ function ContainerTable(props) {
                 <span className="bgColorCustom">--</span>
               </td>
               <td className="centrarTexto">
-                <span className="bgColorCustom">--</span>
+                <span className="bgColorCustom">
+                  {diasNormales?.totalDiurnas +
+                    diasNormales?.totalNocturnas +
+                    feriaDomingos?.totalDiurnas +
+                    feriaDomingos?.totalNocturnas ?? "--"}
+                </span>
               </td>
               <td className="centrarTexto">
-                <span className="bgColorCustom">-- </span>
+                <span className="bgColorCustom">
+                  {(diasNormales?.cobrarDiurnas +
+                    diasNormales?.cobrarNocturnas +
+                    feriaDomingos?.cobrarDiurnas +
+                    feriaDomingos?.cobrarNocturnas) *
+                    0.09 ?? "--"}
+                </span>
               </td>
               <td className="centrarTexto">
-                <span className="bgColorCustom">--</span>
+                <span className="bgColorCustom">
+                  {diasNormales?.cobrarDiurnas +
+                    diasNormales?.cobrarNocturnas +
+                    feriaDomingos?.cobrarDiurnas +
+                    feriaDomingos?.cobrarNocturnas ?? "--"}
+                </span>
               </td>
               <td className="centrarTexto">
-                <span className="bgColorCustom">--</span>
+                <span className="bgColorCustom">
+                  {diasNormales?.cobrarDiurnas +
+                    diasNormales?.cobrarNocturnas +
+                    feriaDomingos?.cobrarDiurnas +
+                    feriaDomingos?.cobrarNocturnas -
+                    (diasNormales?.cobrarDiurnas +
+                      diasNormales?.cobrarNocturnas +
+                      feriaDomingos?.cobrarDiurnas +
+                      feriaDomingos?.cobrarNocturnas) *
+                      0.09 ?? "--"}
+                </span>
               </td>
             </tr>
           </tbody>
