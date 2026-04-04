@@ -7,22 +7,21 @@ import Nav from "../src/components/Nav";
 import SelectMonth from "../src/components/SelectMonth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getFeriados } from "./utils/utils";
+import { useEffect } from "react";
 
 function App() {
   const [month, setMonth] = useState(getMonth(new Date()));
   const [metodo, setMetodo] = useState("0");
   const [resultados, setResultados] = useState({});
   const [feriados, setFeriados] = useState([]);
-
-  //TODO:  Pasarle esto como prop a los componentes
-  const year = new Date().getFullYear();
-  fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/PY`)
-    .then((r) => r.json())
-    .then((data) => {
+  useEffect(() => {
+    async function obtenerFeriados() {
+      const data = await getFeriados();
       setFeriados(data);
-    })
-    .catch(() => setFeriados([]));
-    debugger
+    }
+    obtenerFeriados();
+  }, []);
   return (
     <>
       <Nav />
@@ -34,6 +33,7 @@ function App() {
           metodo={metodo}
           setMetodo={setMetodo}
           setResultados={setResultados}
+          feriados={feriados}
         />
         <ContainerTable metodo={metodo} resultados={resultados} />
       </div>

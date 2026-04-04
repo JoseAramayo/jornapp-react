@@ -1,8 +1,9 @@
 import { HORAS, JORNAL } from "./constants.js"
 import { toast } from "react-toastify";
+import { getYear } from "date-fns";
+
 
 export function calcular(e, metodo) {
-    const notify = () => toast('Wow so easy !');
     e.preventDefault();
     switch (metodo) {
         case "rangoHoras":
@@ -196,6 +197,23 @@ function esFeriadoDomingo(entradas, salidas, index) {
     }
 }
 
+export function calcularTotales(diasNormales, feriaDomingos) {
+    const totalBruto = (diasNormales?.cobrarDiurnas || 0) +
+        (diasNormales?.cobrarNocturnas || 0) +
+        (feriaDomingos?.cobrarDiurnas || 0) +
+        (feriaDomingos?.cobrarNocturnas || 0);
+
+    return {
+        totalHoras: (diasNormales?.totalDiurnas || 0) +
+            (diasNormales?.totalNocturnas || 0) +
+            (feriaDomingos?.totalDiurnas || 0) +
+            (feriaDomingos?.totalNocturnas || 0),
+        totalBruto: totalBruto,
+        ips: totalBruto * 0.09,
+        totalNeto: totalBruto - (totalBruto * 0.09),
+    }
+}
+
 
 export function reiniciar() {
     window.location.reload();
@@ -211,3 +229,16 @@ export function excel() {
 }
 
 function formatearMoneda() { }
+
+
+//API
+export async function getFeriados() {
+    const year = getYear(new Date())
+    const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/PY`)
+    if (!response.ok) {
+        toast.error("Ocurrió un error al obtener los feriados")
+        return false
+    }
+    const data = await response.json()
+    return data;
+}

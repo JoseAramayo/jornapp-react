@@ -1,5 +1,12 @@
 import * as constants from "../utils/constants";
-import { calcular, reiniciar, imprimir, guardar, excel } from "../utils/utils";
+import {
+  calcular,
+  reiniciar,
+  imprimir,
+  guardar,
+  excel,
+  calcularTotales,
+} from "../utils/utils";
 import Button from "./Button";
 import TableRow from "./TableRow";
 function ContainerTable(props) {
@@ -7,7 +14,10 @@ function ContainerTable(props) {
   const { diurno, nocturno, nocturnoFerDom, diurnoFerDom } = JORNAL;
   const { metodo, resultados } = props;
   const { diasNormales, feriaDomingos } = resultados;
-
+  const { totalHoras, totalBruto, ips, totalNeto } = calcularTotales(
+    diasNormales,
+    feriaDomingos,
+  );
   return (
     <>
       <div className="containerTable">
@@ -70,45 +80,19 @@ function ContainerTable(props) {
           <tbody>
             <tr>
               <td className="centrarTexto">
-                <span className="bgColorCustom">--</span>
+                <span className="bgColorCustom">{"sin datos"}</span>
               </td>
               <td className="centrarTexto">
-                <span className="bgColorCustom">
-                  {diasNormales?.totalDiurnas +
-                    diasNormales?.totalNocturnas +
-                    feriaDomingos?.totalDiurnas +
-                    feriaDomingos?.totalNocturnas ?? "--"}
-                </span>
+                <span className="bgColorCustom">{totalHoras}</span>
               </td>
               <td className="centrarTexto">
-                <span className="bgColorCustom">
-                  {(diasNormales?.cobrarDiurnas +
-                    diasNormales?.cobrarNocturnas +
-                    feriaDomingos?.cobrarDiurnas +
-                    feriaDomingos?.cobrarNocturnas) *
-                    0.09 ?? "--"}
-                </span>
+                <span className="bgColorCustom">{ips}</span>
               </td>
               <td className="centrarTexto">
-                <span className="bgColorCustom">
-                  {diasNormales?.cobrarDiurnas +
-                    diasNormales?.cobrarNocturnas +
-                    feriaDomingos?.cobrarDiurnas +
-                    feriaDomingos?.cobrarNocturnas ?? "--"}
-                </span>
+                <span className="bgColorCustom">{totalBruto}</span>
               </td>
               <td className="centrarTexto">
-                <span className="bgColorCustom">
-                  {diasNormales?.cobrarDiurnas +
-                    diasNormales?.cobrarNocturnas +
-                    feriaDomingos?.cobrarDiurnas +
-                    feriaDomingos?.cobrarNocturnas -
-                    (diasNormales?.cobrarDiurnas +
-                      diasNormales?.cobrarNocturnas +
-                      feriaDomingos?.cobrarDiurnas +
-                      feriaDomingos?.cobrarNocturnas) *
-                      0.09 ?? "--"}
-                </span>
+                <span className="bgColorCustom">{totalNeto}</span>
               </td>
             </tr>
           </tbody>

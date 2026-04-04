@@ -3,7 +3,7 @@ import HourRange from "../components/HourRange";
 import TotalHours from "../components/TotalHours";
 import { calcular } from "../utils/utils";
 function FormContainer(props) {
-  const { month, setMonth, metodo, setMetodo, setResultados } = props;
+  const { month, setMonth, metodo, setMetodo, setResultados, feriados } = props;
   let seleccion = {
     componente: null,
     metodo: null,
@@ -16,13 +16,13 @@ function FormContainer(props) {
       break;
     case "rangoHoras":
       seleccion = {
-        componente: <HourRange month={month} setMonth={setMonth} />,
+        componente: <HourRange month={month} setMonth={setMonth} feriados={feriados}/>,
         metodo: metodo,
       };
       break;
     case "cantidadHoras":
       seleccion = {
-        componente: <TotalHours month={month} setMonth={setMonth} />,
+        componente: <TotalHours month={month} setMonth={setMonth}  feriados={feriados}/>,
         metodo: metodo,
       };
       break;
